@@ -13,10 +13,7 @@ pub use input::*;
 pub mod prelude {
     #[doc(hidden)]
     pub use crate::{
-        gamepad::{
-            Gamepad, GamepadAxis, GamepadAxisType, GamepadButton, GamepadButtonType, GamepadEvent,
-            GamepadEventType, Gamepads,
-        },
+        gamepad::{Gamepad, GamepadAxis, GamepadButton, GamepadEvent, GamepadEventType, Gamepads},
         keyboard::KeyCode,
         mouse::MouseButton,
         touch::{TouchInput, Touches},
@@ -30,10 +27,7 @@ use mouse::{mouse_button_input_system, MouseButton, MouseButtonInput, MouseMotio
 use prelude::Gamepads;
 use touch::{touch_screen_input_system, TouchInput, Touches};
 
-use gamepad::{
-    gamepad_connection_system, gamepad_event_system, GamepadAxis, GamepadButton, GamepadEvent,
-    GamepadEventRaw, GamepadSettings,
-};
+use gamepad::{gamepad_event_system, GamepadEvent, GamepadEventRaw, GamepadSettings};
 
 /// Adds keyboard and mouse input to an App
 #[derive(Default)]
@@ -66,16 +60,9 @@ impl Plugin for InputPlugin {
             .add_event::<GamepadEventRaw>()
             .init_resource::<GamepadSettings>()
             .init_resource::<Gamepads>()
-            .init_resource::<Input<GamepadButton>>()
-            .init_resource::<Axis<GamepadAxis>>()
-            .init_resource::<Axis<GamepadButton>>()
             .add_system_to_stage(
                 CoreStage::PreUpdate,
                 gamepad_event_system.label(InputSystem),
-            )
-            .add_system_to_stage(
-                CoreStage::PreUpdate,
-                gamepad_connection_system.label(InputSystem),
             )
             // touch
             .add_event::<TouchInput>()
